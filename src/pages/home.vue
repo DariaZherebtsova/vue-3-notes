@@ -1,6 +1,19 @@
 <template>
   <div class="md-body">
-    <h1>hello home</h1>
-    <p>Edit me</p>
+    <Form @onSubmit="handleSubmit"/>
   </div>
 </template>
+
+<script>
+import Form from '@/components/Notes/Form.vue';
+export default {
+  components: {
+    Form
+  },
+  methods: {
+    handleSubmit(note) {
+      console.log('--note', note);
+    }
+  },
+}
+</script>
