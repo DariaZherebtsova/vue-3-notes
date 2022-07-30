@@ -2,15 +2,24 @@
   <div class="notes-list">
     <div class="note-item" v-for="(note, index) in items" :key="index">
       <div class="note-header">
-        <p>{{note}}</p>
+        <p>{{note.title}}</p>
         <span class="note-remover" @click="$emit('onRemove', index)">&#10005;</span>
       </div>
-      <!-- <div class="note-footer"></div> -->
+      <div class="note-footer">
+        <TagsList 
+          v-if="note.tags?.length!==0" 
+          :items="note.tags"
+          isPreview
+        />
+      </div>
     </div>
   </div>
 </template>
+
 <script>
+import TagsList from '@/components/UI/TagsList.vue';
 export default {
+  components: { TagsList },
   props: {
     items: {
       type: Array,

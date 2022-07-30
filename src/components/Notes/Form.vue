@@ -8,16 +8,23 @@
         v-model="value"
         placeholder="Type ur note"
       />
+      <TagsList 
+        :items="tags"
+        @onItemClick="handleTagClick"
+      />
       <button class="btn btnPrimary" type="submit">Add new note</button>
     </form>
   </div>
 </template>
 
 <script>
+import TagsList from '@/components/UI/TagsList.vue';
 export default {
+  components: { TagsList },
   data() {
     return {
       value: '',
+      tags: ['home', 'work', 'travel'],
     }
   },
   methods: {
@@ -25,6 +32,9 @@ export default {
       this.$emit('onSubmit', this.value)
       console.log('--value', this.value);
       this.value = '';
+    },
+    handleTagClick(tag) {
+      console.log(tag);
     }
   }
 }
@@ -40,5 +50,10 @@ export default {
     display: flex;
     flex-direction: column;
     width: 100%;
+
+    textarea {
+      margin-bottom: 0;
+    }
+
   }
 </style>
