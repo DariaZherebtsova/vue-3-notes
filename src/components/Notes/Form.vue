@@ -10,6 +10,7 @@
       />
       <TagsList 
         :items="tags"
+        :needClear="clearTags"
         @onItemClick="handleTagClick"
       />
       <button class="btn btnPrimary" type="submit">Add new note</button>
@@ -25,16 +26,30 @@ export default {
     return {
       value: '',
       tags: ['home', 'work', 'travel'],
+      selectedTags: [],
+      clearTags: false,
     }
   },
   methods: {
     onSubmit() {
-      this.$emit('onSubmit', this.value)
-      console.log('--value', this.value);
+      const result = {
+        title: this.value,
+        // ?? какой правильный способ получить из Proxy обычный объект
+        tags: JSON.parse(JSON.stringify(this.selectedTags)),
+      }
+      this.$emit('onSubmit', result)
       this.value = '';
+      this.clearTags = true;
+      this.selectedTags = [];
     },
     handleTagClick(tag) {
-      console.log(tag);
+      this.clearTags = false;
+      const index = this.selectedTags.indexOf(tag);
+      if (index === -1) {
+        this.selectedTags.push(tag);
+      } else {
+        this.selectedTags.splice(index, 1);
+      }
     }
   }
 }

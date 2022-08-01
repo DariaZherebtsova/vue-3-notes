@@ -3,7 +3,7 @@
     <div class="tag-item" 
       v-for="item in items"
       :key="item"
-      @click="$emit('onItemClick', item)" 
+      @click="onItemClick($event, item)" 
       :class="{ isPreview: isPreview }" 
     >
       <span>{{ item }}</span>
@@ -21,8 +21,27 @@ export default {
     isPreview: {
       type: Boolean,
       default: false,
+    },
+    needClear: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    needClear(newValue) {
+      if (newValue) {
+        document.getElementsByClassName('tag-item').forEach(element => {
+          element.classList.remove('isActive');
+        });
+      }
     }
-  }
+  },
+  methods: {
+    onItemClick(event, item) {
+      event.currentTarget.classList.toggle('isActive');
+      this.$emit('onItemClick', item);
+    }
+  },
 }
 </script>
 
@@ -48,6 +67,12 @@ export default {
       content: '#';
     }
   }
+
+  &.isActive {
+    background-color: #4468e0;
+    color: #fff;
+  }
+
   &:last-child {
     margin-right: 0;
   }
